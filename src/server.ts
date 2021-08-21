@@ -2,7 +2,7 @@ import express, { Application } from "express";
 const app: Application = express();
 
 // Import interface
-import { Options } from "./interfaces";
+import { Options } from "../lib/interfaces";
 
 // Define routes
 app.use(require("./routes"));

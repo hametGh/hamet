@@ -1,8 +1,10 @@
-import middleware from "./middleware";
 import server from "./server";
 
 // Import interface
-import { Options } from "./interfaces";
+import { Options } from "../lib/interfaces";
+
+// Import middleware
+import middleware from "../lib/middleware";
 
 // initializing hamet
 const hamet = (db: string, options: Options) => {
