@@ -1,3 +1,3 @@
-import hamet from "./src/index.js";
+import hamet from "./dist/index.js";
 
 export default hamet;

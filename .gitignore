@@ -105,3 +105,6 @@ dist
 
 # Temporary test files
 tmp
+
+# json file
+hamet.json

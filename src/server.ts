@@ -11,7 +11,7 @@ app.use(routes);
  * if the configuration is set to true
  * @param server
  */
-export const init = (server) => {
+export const init = (server: any) => {
   const { gui } = server;
   if (gui?.enabled) {
     console.log("hamet GUI is running on ", gui.port || 1010);
