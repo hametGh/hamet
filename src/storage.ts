@@ -38,13 +38,25 @@ export const findByPath = async (db: Low<Data>, path: string) => {
  * @param db Low db
  * @param transactionId string
  */
-export const findOne = async (db: Low<Data>, tId: string) => {};
+export const findOne = async (db: Low<Data>, tId: string) => {
+  let result;
+  Object.keys(db.data!).forEach((property) => {
+    result = db.data![property].filter((t) => t.id === tId);
+  });
+  return result;
+};
 
 /**
  * return all transactions
  * @param db Low db
  */
-export const find = async (db: Low<Data>) => {};
+export const find = async (db: Low<Data>) => {
+  let result;
+  Object.keys(db.data!).forEach((property) => {
+    db.data![property].forEach((t) => result.push(t));
+  });
+  return result;
+};
 
 /**
  * remove transaction by id
