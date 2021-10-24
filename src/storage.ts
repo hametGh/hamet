@@ -1,6 +1,8 @@
 import { join } from "path";
 import { Low, JSONFile } from "lowdb";
-import { Data, Transaction } from "./models/Transaction";
+
+import { Data } from "./lib/types";
+import { Transaction } from "./lib/types/Transaction";
 
 const Storage = (dbPath: string) => {
   const adapter = new JSONFile<Data>(join(dbPath));
