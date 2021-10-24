@@ -19,3 +19,21 @@ export enum TriggerBy {
   BODY,
   USER_AGENT,
 }
+
+export enum ActionType {
+  MODIFY,
+  ALERT,
+}
+
+export enum ModifyType {
+  CHANGE_STATUS,
+  CHANGE_HEADERS,
+  CHANGE_COOCKIES,
+  CHANGE_REQUEST,
+  CHANGE_REPONSE,
+  CHANGE_REPONSE_VALUE,
+}
+export enum AlertType {
+  SLACK,
+  WEBHOOK,
+}
