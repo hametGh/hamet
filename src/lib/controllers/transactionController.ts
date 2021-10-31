@@ -1,11 +1,17 @@
 import { Request, Response } from "express";
+import Storage from "../../storage.js";
 
 /**
  * find transaction
  * @param req Request
  * @param res Response
  */
-export const find = (req: Request, res: Response) => {};
+export const find = async (req: Request, res: Response) => {
+  // initial db
+  const db = Storage(req.dbPath);
+  await db.read();
+  res.send({ sucess: true, data: db.data });
+};
 
 /**
  * find transaction by id

@@ -1,13 +1,14 @@
 import express from "express";
 const router = express.Router();
 
+// import controller methods
 import {
-  add,
   find,
   findOne,
+  add,
   update,
   remove,
-} from "./lib/controllers/transactionController";
+} from "./lib/controllers/transactionController.js";
 
 // find transaction
 router.get("/transaction", find);

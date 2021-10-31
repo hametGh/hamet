@@ -1,5 +1,5 @@
 import { Request } from "express";
 
-export interface IGetUserAuthInfoRequest extends Request {
-    
+export interface ICustomRequest extends Request {
+  dbPath: string;
 }

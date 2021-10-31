@@ -7,9 +7,9 @@ import { Options } from "./lib/types/Options";
 import middleware from "./middleware.js";
 
 // initializing hamet
-const hamet = (dbPath: any, options: Options) => {
+const hamet = (options: Options) => {
   // initial db
-  const db = Storage(dbPath);
+  const db = Storage(options.dbPath);
 
   // initializing GUI end-points
   init(options);
