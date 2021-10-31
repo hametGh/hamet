@@ -1,7 +1,7 @@
 import { join } from "path";
 import { Low, JSONFile } from "lowdb";
 
-import { Data } from "./lib/types";
+import { Data } from "./lib/types/Index";
 import { Transaction } from "./lib/types/Transaction";
 
 const Storage = (dbPath: string) => {

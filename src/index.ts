@@ -1,15 +1,18 @@
 import app, { init } from "./server.js";
 import Storage, { add } from "./storage.js";
 
+import { Options } from "./lib/types/Options";
+
 // // Import utilities
 import middleware from "./middleware.js";
 
 // initializing hamet
-const hamet = (dbPath: any, options: any) => {
-  // initializing GUI end-points
+const hamet = (dbPath: any, options: Options) => {
+  // initial db
   const db = Storage(dbPath);
 
-  // db.data!["/users/123"] = [{ id: "123", type: "POST" }];
+  // initializing GUI end-points
+  init(options);
 
   return middleware(db);
 };

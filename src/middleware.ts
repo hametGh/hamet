@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { Data } from "./models/Transaction";
+import { Data } from "./lib/types/Index";
 import { Low } from "lowdb";
 import { add, read, findByPath } from "./storage.js";
 

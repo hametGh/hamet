@@ -34,6 +34,8 @@
     ]
   },
   "dependencies": {
+    "@types/jsonwebtoken": "^8.5.5",
+    "jsonwebtoken": "^8.5.1",
     "lowdb": "^3.0.0"
   }
 }

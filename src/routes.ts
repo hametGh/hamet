@@ -1,21 +1,27 @@
 import express from "express";
 const router = express.Router();
 
- 
-router.get("/transaction", (req, res) => {
-  res.send("home page");
-});
-router.get("/transaction/:id", (req, res) => {
-  res.send("home page");
-});
-router.post("/transaction", (req, res) => {
-  res.send("home page");
-});
-router.put("/transaction", (req, res) => {
-  res.send("home page");
-});
-router.delete("/transaction", (req, res) => {
-  res.send("home page");
-});
+import {
+  add,
+  find,
+  findOne,
+  update,
+  remove,
+} from "./lib/controllers/transactionController";
+
+// find transaction
+router.get("/transaction", find);
+
+// find transaction by id
+router.get("/transaction/:id", findOne);
+
+// insert new transaction
+router.post("/transaction", add);
+
+// update transaction by id
+router.put("/transaction/:id", update);
+
+// remove transaction by id
+router.delete("/transaction/:id", remove);
 
 export default router;
