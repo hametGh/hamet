@@ -13,6 +13,7 @@ export const find = async (req: Request, res: Response) => {
   // initial db
   const db = Storage(req.dbPath);
   await db.read();
+
   res.send({ sucess: true, data: db.data });
 };
 
@@ -26,8 +27,10 @@ export const findOne = async (req: Request, res: Response) => {
   const db = Storage(req.dbPath);
   await db.read();
 
+  // transaction id
   const { id } = req.params;
 
+  // find transaction by id
   let resualt = findTransaction(db.data, id);
 
   res.send({ sucess: true, data: resualt || [] });
@@ -38,7 +41,11 @@ export const findOne = async (req: Request, res: Response) => {
  * @param req Request
  * @param res Response
  */
-export const add = (req: Request, res: Response) => {};
+export const add = async (req: Request, res: Response) => {
+  // initial db
+  const db = Storage(req.dbPath);
+  await db.read();
+};
 
 /**
  * update transaction by id

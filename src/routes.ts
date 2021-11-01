@@ -1,4 +1,7 @@
 import express from "express";
+import { Validator } from "express-json-validator-middleware";
+
+import { createTransaction } from "./validate.js";
 const router = express.Router();
 
 // import controller methods
@@ -10,6 +13,11 @@ import {
   remove,
 } from "./lib/controllers/transactionController.js";
 
+/**
+ * Initialize a `Validator` instance
+ */
+const { validate } = new Validator({});
+
 // find transaction
 router.get("/transaction", find);
 
@@ -17,7 +25,7 @@ router.get("/transaction", find);
 router.get("/transaction/:id", findOne);
 
 // insert new transaction
-router.post("/transaction", add);
+router.post("/transaction", validate({ body: createTransaction as any }), add);
 
 // update transaction by id
 router.put("/transaction/:id", update);

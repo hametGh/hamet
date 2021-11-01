@@ -3,6 +3,7 @@ import routes from "./routes.js";
 
 import { Options } from "./lib/types/Options";
 import { verifyToken } from "./lib/middlewares/auth.js";
+import { validationErrorMiddleware } from "./lib/middlewares/validationError.js";
 
 const app = express();
 
@@ -20,8 +21,12 @@ export const init = (options: Options) => {
   // define auth middleware
   app.use(verifyToken(options));
 
+  app.use(express.json());
+
   // Define routes
   app.use(routes);
+
+  app.use(validationErrorMiddleware);
 
   app.listen(port);
 
