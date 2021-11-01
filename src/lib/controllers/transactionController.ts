@@ -1,6 +1,9 @@
 import { Request, Response } from "express";
 import Storage from "../../storage.js";
 
+import { Transaction } from "../types/Transaction";
+import { findTransaction } from "../../helper.js";
+
 /**
  * find transaction
  * @param req Request
@@ -18,7 +21,17 @@ export const find = async (req: Request, res: Response) => {
  * @param req Request
  * @param res Response
  */
-export const findOne = (req: Request, res: Response) => {};
+export const findOne = async (req: Request, res: Response) => {
+  // initial db
+  const db = Storage(req.dbPath);
+  await db.read();
+
+  const { id } = req.params;
+
+  let resualt = findTransaction(db.data, id);
+
+  res.send({ sucess: true, data: resualt || [] });
+};
 
 /**
  * insert new transaction
