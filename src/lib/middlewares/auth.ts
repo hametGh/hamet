@@ -13,6 +13,7 @@ export const verifyToken = (options: Options) => {
     req.dbPath = options.dbPath;
 
     try {
+      // TODO decode token
       // const decoded = jwt.verify(token, "");
     } catch (err) {
       return res.status(401).send("Invalid Token");
