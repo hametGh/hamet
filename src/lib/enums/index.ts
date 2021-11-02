@@ -34,6 +34,6 @@ export enum ModifyType {
   CHANGE_REPONSE_VALUE,
 }
 export enum AlertType {
-  SLACK,
-  WEBHOOK,
+  SLACK = "slack",
+  WEBHOOK = "webhook",
 }
