@@ -38,7 +38,8 @@ export const findOne = async (req: Request, res: Response) => {
 
   // find transaction by id
   let transaction: Transaction = getOne(db, id);
-  
+
+  // if transaction not found
   if (_.isEmpty(transaction))
     return res.send({ sucess: false, message: "transaction not found" });
 
@@ -74,6 +75,8 @@ export const update = async (req: Request, res: Response) => {
 
   // find transaction by id
   let transaction: Transaction = getOne(db, id);
+
+  // if transaction not found
   if (_.isEmpty(transaction))
     return res.send({ sucess: false, message: "transaction not found" });
 
@@ -102,6 +105,7 @@ export const remove = async (req: Request, res: Response) => {
   // find transaction by id
   let transaction: Transaction = getOne(db, id);
 
+  // if transaction not found
   if (_.isEmpty(transaction))
     return res.send({ sucess: false, message: "transaction not found" });
 
