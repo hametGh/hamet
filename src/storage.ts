@@ -6,6 +6,10 @@ import { Transaction } from "./lib/types/Transaction";
 
 import { guid } from "./helper.js";
 
+/**
+ * inital db
+ * @param dbPath String
+ */
 const Storage = (dbPath: string) => {
   const adapter = new JSONFile<Data>(join(dbPath));
   const db = new Low<Data>(adapter);
@@ -32,7 +36,7 @@ export const insert = async (db: Low<Data>, path: string, t: Transaction) => {
 
 /**
  * modify transaction before inserting
- * @param t Transaction
+ * @param transaction Transaction
  */
 export const preInsert = (t: Transaction): Transaction => {
   let obj = <Transaction>{};
@@ -67,19 +71,21 @@ export const findByPath = async (db: Low<Data>, path: string) => {
 export const getOne = (db: Low<Data>, tId: string): Transaction => {
   let result = <Transaction>{};
   Object.keys(db.data!).forEach((property) => {
-    result = db.data![property].find((t) => t.id === tId)!;
+    console.log(property);
+    if (db.data![property])
+      result = db.data![property].find((t) => t.id === tId)!;
   });
   return result;
 };
 
 /**
- * return all transactions
+ * get all transactions
  * @param db Low db
  */
 export const get = async (db: Low<Data>) => {
   let result;
   Object.keys(db.data!).forEach((property) => {
-    db.data![property].forEach((t) => result.push(t));
+    db.data![property]?.forEach((t) => result.push(t));
   });
   return result;
 };
@@ -89,14 +95,13 @@ export const get = async (db: Low<Data>) => {
  * @param db Low db
  * @param transactionId string
  */
-export const remove = async (db: Low<Data>, tId: string) => {};
+export const deleteOne = async (db: Low<Data>, tId: string) => {
+  Object.keys(db.data!).forEach((property) => {
+    db.data = db.data![property]?.filter((t) => t.id !== tId) as any;
+  });
 
-/**
- * remove transaction by path
- * @param db Low db
- * @param path string
- */
-export const removeByPath = async (db: Low<Data>, path: string) => {};
+  await db.write();
+};
 
 /**
  * update transaction by id
@@ -105,9 +110,8 @@ export const removeByPath = async (db: Low<Data>, path: string) => {};
  * @param transaction Transaction
  */
 export const modify = async (db: Low<Data>, tId: string, t: Transaction) => {
-  
   Object.keys(db.data!).forEach((property) => {
-    db.data![property].forEach((item) => {
+    db.data![property]?.forEach((item) => {
       if (item.id === tId) item = t;
     });
   });
@@ -116,7 +120,7 @@ export const modify = async (db: Low<Data>, tId: string, t: Transaction) => {
 };
 
 /**
- *
+ * read db
  * @param db Low db
  */
 export const read = async (db: Low<Data>) => {

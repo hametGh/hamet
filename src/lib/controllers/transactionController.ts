@@ -1,5 +1,12 @@
 import { Request, Response } from "express";
-import Storage, { insert, preInsert, modify, getOne } from "../../storage.js";
+import Storage, {
+  insert,
+  preInsert,
+  modify,
+  getOne,
+  deleteOne,
+} from "../../storage.js";
+import _ from "lodash";
 
 import { Transaction } from "../types/Transaction";
 
@@ -30,9 +37,12 @@ export const findOne = async (req: Request, res: Response) => {
   const { id } = req.params;
 
   // find transaction by id
-  let resualt: Transaction = getOne(db, id);
+  let transaction: Transaction = getOne(db, id);
+  
+  if (_.isEmpty(transaction))
+    return res.send({ sucess: false, message: "transaction not found" });
 
-  res.send({ sucess: true, data: resualt || [] });
+  res.send({ sucess: true, data: transaction });
 };
 
 /**
@@ -64,6 +74,8 @@ export const update = async (req: Request, res: Response) => {
 
   // find transaction by id
   let transaction: Transaction = getOne(db, id);
+  if (_.isEmpty(transaction))
+    return res.send({ sucess: false, message: "transaction not found" });
 
   // update locally
   Object.assign(transaction, req.body);
@@ -79,4 +91,21 @@ export const update = async (req: Request, res: Response) => {
  * @param req Request
  * @param res Response
  */
-export const remove = (req: Request, res: Response) => {};
+export const remove = async (req: Request, res: Response) => {
+  // initial db
+  const db = Storage(req.dbPath);
+  await db.read();
+
+  // transaction id
+  const { id } = req.params;
+
+  // find transaction by id
+  let transaction: Transaction = getOne(db, id);
+
+  if (_.isEmpty(transaction))
+    return res.send({ sucess: false, message: "transaction not found" });
+
+  await deleteOne(db, id);
+
+  res.send({ sucess: true, data: transaction });
+};
