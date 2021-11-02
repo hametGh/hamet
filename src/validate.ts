@@ -84,6 +84,11 @@ export const createTransaction = {
         properties: {
           type: {
             type: "number",
+            /**
+             * TODO conditional validation should be implemented 
+             * if type === 0 then `modify` should be required
+             * if type === 1 then `alert`  should be required
+             */
             enum: [0, 1],
           },
           modify: {
