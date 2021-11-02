@@ -1,7 +1,7 @@
 import express from "express";
 import { Validator } from "express-json-validator-middleware";
 
-import { createTransaction } from "./validate.js";
+import { createTransaction, updateTransaction } from "./validate.js";
 const router = express.Router();
 
 // import controller methods
@@ -28,7 +28,11 @@ router.get("/transaction/:id", findOne);
 router.post("/transaction", validate({ body: createTransaction as any }), add);
 
 // update transaction by id
-router.put("/transaction/:id", update);
+router.put(
+  "/transaction/:id",
+  validate({ body: updateTransaction as any }),
+  update
+);
 
 // remove transaction by id
 router.delete("/transaction/:id", remove);
