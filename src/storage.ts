@@ -4,6 +4,8 @@ import { Low, JSONFile } from "lowdb";
 import { Data } from "./lib/types/Index";
 import { Transaction } from "./lib/types/Transaction";
 
+import { guid } from "./helper.js";
+
 const Storage = (dbPath: string) => {
   const adapter = new JSONFile<Data>(join(dbPath));
   const db = new Low<Data>(adapter);
@@ -17,13 +19,35 @@ const Storage = (dbPath: string) => {
  * @param path String
  * @param transaction Transaction
  */
-export const add = async (db: Low<Data>, path: string, t: Transaction) => {
+export const insert = async (db: Low<Data>, path: string, t: Transaction) => {
   if (!db.data![path]) {
     db.data![path] = [t];
   } else {
     db.data![path].push(t);
   }
   await db.write();
+
+  return { [path]: t };
+};
+
+/**
+ * modify transaction before inserting
+ * @param t Transaction
+ */
+export const preInsert = (t: Transaction): Transaction => {
+  let obj = <Transaction>{};
+  Object.assign(obj, t);
+
+  // remove path from transaction body
+  delete obj.path;
+
+  // create unique ID for each transaction
+  obj.id = guid();
+
+  // set created date
+  obj.createdAt = new Date();
+
+  return obj;
 };
 
 /**

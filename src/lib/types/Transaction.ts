@@ -9,6 +9,7 @@ import { Hook } from "./Hook";
 
 export type Transaction = {
   id: string;
+  path: string;
   type: Hook;
   enabled: boolean;
   method: Methods;
@@ -18,4 +19,3 @@ export type Transaction = {
   action: Action[];
   ActionWhen: Check;
 };
-

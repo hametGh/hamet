@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import Storage from "../../storage.js";
+import Storage, { insert, preInsert } from "../../storage.js";
 
 import { Transaction } from "../types/Transaction";
 import { findTransaction } from "../../helper.js";
@@ -41,10 +41,13 @@ export const findOne = async (req: Request, res: Response) => {
  * @param req Request
  * @param res Response
  */
-export const add = async (req: Request, res: Response) => {
+export const add = async (req: Request<{}, {}, Transaction>, res: Response) => {
   // initial db
   const db = Storage(req.dbPath);
   await db.read();
+
+  let s = await insert(db, req.body.path, preInsert(req.body));
+  res.send({ sucess: true, data: s });
 };
 
 /**
