@@ -3,7 +3,7 @@
  */
 export const createTransaction = {
   type: "object",
-  required: ["path", "type", "method", "trigger", "action", "action"],
+  required: ["path", "type", "method", "trigger", "action"],
   properties: {
     path: {
       type: "string",
@@ -14,6 +14,7 @@ export const createTransaction = {
     },
     enabled: {
       type: "boolean",
+      default: false,
     },
     method: {
       type: "string",
@@ -22,6 +23,9 @@ export const createTransaction = {
     createdAt: {
       type: "string",
       format: "date-time",
+
+      // TODO set the default value
+      default: new Date(),
     },
     trigger: {
       type: "array",
