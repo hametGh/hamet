@@ -1,8 +1,7 @@
 import { Request, Response } from "express";
-import Storage, { insert, preInsert } from "../../storage.js";
+import Storage, { insert, preInsert, modify, getOne } from "../../storage.js";
 
 import { Transaction } from "../types/Transaction";
-import { findTransaction } from "../../helper.js";
 
 /**
  * find transaction
@@ -31,7 +30,7 @@ export const findOne = async (req: Request, res: Response) => {
   const { id } = req.params;
 
   // find transaction by id
-  let resualt = findTransaction(db.data, id);
+  let resualt: Transaction = getOne(db, id);
 
   res.send({ sucess: true, data: resualt || [] });
 };
@@ -46,8 +45,8 @@ export const add = async (req: Request<{}, {}, Transaction>, res: Response) => {
   const db = Storage(req.dbPath);
   await db.read();
 
-  let s = await insert(db, req.body.path, preInsert(req.body));
-  res.send({ sucess: true, data: s });
+  let createdTransaction = await insert(db, req.body.path, preInsert(req.body));
+  res.send({ sucess: true, data: createdTransaction });
 };
 
 /**
@@ -55,7 +54,25 @@ export const add = async (req: Request<{}, {}, Transaction>, res: Response) => {
  * @param req Request
  * @param res Response
  */
-export const update = (req: Request, res: Response) => {};
+export const update = async (req: Request, res: Response) => {
+  // initial db
+  const db = Storage(req.dbPath);
+  await db.read();
+
+  // transaction id
+  const { id } = req.params;
+
+  // find transaction by id
+  let transaction: Transaction = getOne(db, id);
+
+  // update locally
+  Object.assign(transaction, req.body);
+
+  // update from db
+  modify(db, id, transaction);
+
+  res.send({ sucess: true, data: transaction });
+};
 
 /**
  * remove transaction by id

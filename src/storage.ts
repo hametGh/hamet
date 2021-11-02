@@ -64,10 +64,10 @@ export const findByPath = async (db: Low<Data>, path: string) => {
  * @param db Low db
  * @param transactionId string
  */
-export const findOne = async (db: Low<Data>, tId: string) => {
-  let result;
+export const getOne = (db: Low<Data>, tId: string): Transaction => {
+  let result = <Transaction>{};
   Object.keys(db.data!).forEach((property) => {
-    result = db.data![property].filter((t) => t.id === tId);
+    result = db.data![property].find((t) => t.id === tId)!;
   });
   return result;
 };
@@ -76,7 +76,7 @@ export const findOne = async (db: Low<Data>, tId: string) => {
  * return all transactions
  * @param db Low db
  */
-export const find = async (db: Low<Data>) => {
+export const get = async (db: Low<Data>) => {
   let result;
   Object.keys(db.data!).forEach((property) => {
     db.data![property].forEach((t) => result.push(t));
@@ -99,12 +99,21 @@ export const remove = async (db: Low<Data>, tId: string) => {};
 export const removeByPath = async (db: Low<Data>, path: string) => {};
 
 /**
- *
+ * update transaction by id
  * @param db Low db
  * @param transactionId string
  * @param transaction Transaction
  */
-export const update = async (db: Low<Data>, tId: string, t: Transaction) => {};
+export const modify = async (db: Low<Data>, tId: string, t: Transaction) => {
+  
+  Object.keys(db.data!).forEach((property) => {
+    db.data![property].forEach((item) => {
+      if (item.id === tId) item = t;
+    });
+  });
+
+  await db.write();
+};
 
 /**
  *
