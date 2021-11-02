@@ -56,7 +56,9 @@ export const add = async (req: Request<{}, {}, Transaction>, res: Response) => {
   const db = Storage(req.dbPath);
   await db.read();
 
+  // create transaction
   let createdTransaction = await insert(db, req.body.path, preInsert(req.body));
+
   res.send({ sucess: true, data: createdTransaction });
 };
 
@@ -109,6 +111,7 @@ export const remove = async (req: Request, res: Response) => {
   if (_.isEmpty(transaction))
     return res.send({ sucess: false, message: "transaction not found" });
 
+  // delete from db
   await deleteOne(db, id);
 
   res.send({ sucess: true, data: transaction });
