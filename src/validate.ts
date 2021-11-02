@@ -3,13 +3,21 @@
  */
 export const createTransaction = {
   type: "object",
-  required: ["path", "type", "method", "trigger", "action"],
+  required: [
+    "path",
+    "type",
+    "method",
+    "trigger",
+    "action",
+    "triggerWhen",
+    "actionWhen",
+  ],
   properties: {
     path: {
       type: "string",
     },
     type: {
-      type: "numbr",
+      type: "number",
       enum: [0, 1],
     },
     enabled: {
@@ -23,14 +31,12 @@ export const createTransaction = {
     createdAt: {
       type: "string",
       format: "date-time",
-
-      // TODO set the default value
-      default: new Date(),
     },
     trigger: {
       type: "array",
       items: {
         type: "object",
+        required: ["by", "condition"],
         properties: {
           by: {
             type: "number",
@@ -41,6 +47,7 @@ export const createTransaction = {
             type: "array",
             items: {
               type: "object",
+              required: ["property", "operator", "value"],
               properties: {
                 property: {
                   type: "string",
@@ -73,6 +80,7 @@ export const createTransaction = {
       type: "array",
       items: {
         type: "object",
+        required: ["type"],
         properties: {
           type: {
             type: "number",
