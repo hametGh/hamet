@@ -92,6 +92,12 @@ const checkCondition = (source: any, conditions: Condition[]): boolean => {
   return conditionStat;
 };
 
+/**
+ * check two value
+ * @param prop any
+ * @param operator string
+ * @param value any
+ */
 const compare = (prop: any, operator: string, value: any) => {
   switch (operator) {
     case ">":
