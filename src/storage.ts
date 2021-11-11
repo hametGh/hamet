@@ -71,7 +71,6 @@ export const findByPath = async (db: Low<Data>, path: string) => {
 export const getOne = (db: Low<Data>, tId: string): Transaction => {
   let result = <Transaction>{};
   Object.keys(db.data!).forEach((property) => {
-    console.log(property);
     if (db.data![property])
       result = db.data![property].find((t) => t.id === tId)!;
   });

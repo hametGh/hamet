@@ -1,5 +1,5 @@
 import app, { init } from "./server.js";
-import Storage, { add } from "./storage.js";
+import Storage from "./storage.js";
 
 import { Options } from "./lib/types/Options";
 
