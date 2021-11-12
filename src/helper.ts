@@ -63,18 +63,25 @@ export const isTriggered = (
         break;
       // check by request COOKIE
       case TriggerBy.COOKIE:
+        if (checkCondition(req.cookies, trigger.condition)) currentStat = true;
         break;
       // check by request HEADER
       case TriggerBy.HEADER:
+        if (checkCondition(req.headers, trigger.condition)) currentStat = true;
+
+        break;
+      // check by request QUERY
+      case TriggerBy.QUERY_STRING:
+        if (checkCondition(req.query, trigger.condition)) currentStat = true;
         break;
     }
     triggerStat.push(currentStat);
   }
 
-  // CHECK ADN OR HERE
-  console.log(triggerStat);
-
-  return result;
+  // if triggered conf setted to AND
+  if (triggerBy === "AND") return triggerStat.every((v) => v === true);
+  // if triggered conf setted to OR
+  else return triggerStat.some((v) => v === true);
 };
 
 /**

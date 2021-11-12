@@ -6,10 +6,12 @@ import { filterByMethod, isTriggered } from "./helper.js";
 import { Transaction } from "./lib/types/Transaction";
 
 const middleware = (db: Low<Data>) => {
-  // read database
-  read(db).then();
-
   return async (req: Request, res: Response, next: NextFunction) => {
+    // read database 
+    console.time("reading local database");
+    await read(db);
+    console.timeEnd("reading local database");
+
     // find transaction by path
     let transactions = await findByPath(db, req.path);
 
@@ -23,10 +25,9 @@ const middleware = (db: Low<Data>) => {
       // skip this transaction because it's not triggered
       if (!t.enabled || !isTriggered(t.trigger, t.triggerWhen, req)) continue;
 
-      // TODO do the action
+      // TODO call action here
+      console.log("should call an action");
     }
-
-    console.log(req.query);
 
     next();
   };
