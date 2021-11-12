@@ -1,12 +1,12 @@
 import { ModifyType, AlertType, ActionType } from "../enums";
 import { Methods } from "../types/Methods";
 
-type Modify = {
+export type Modify = {
   type: ModifyType;
   property: string;
   value: string;
 };
-type Alert = {
+export type Alert = {
   type: AlertType;
   url: string;
   method: Methods;

@@ -3,15 +3,7 @@
  */
 export const createTransaction = {
   type: "object",
-  required: [
-    "path",
-    "type",
-    "method",
-    "trigger",
-    "action",
-    "triggerWhen",
-    "actionWhen",
-  ],
+  required: ["path", "type", "method", "trigger", "action", "triggerWhen"],
   properties: {
     path: {
       type: "string",
@@ -91,6 +83,8 @@ export const createTransaction = {
              */
             enum: [0, 1],
           },
+          enabled: { type: Boolean },
+
           modify: {
             type: "array",
             items: {
@@ -210,6 +204,7 @@ export const updateTransaction = {
              */
             enum: [0, 1],
           },
+          enabled: { type: Boolean },
           modify: {
             type: "array",
             items: {
