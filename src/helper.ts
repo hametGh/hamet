@@ -1,9 +1,14 @@
 import { Request } from "express";
+
+// import types
 import { Transaction } from "./lib/types/Transaction";
+import { Condition } from "./lib/types/Condition";
 import { Trigger } from "./lib/types/Trigger";
 import { Check } from "./lib/types/Check";
-import { TriggerBy } from "./lib/enums/index.js";
-import { Condition } from "./lib/types/Condition";
+import { Alert } from "./lib/types/Action";
+
+// import enums
+import { TriggerBy, AlertType } from "./lib/enums/index.js";
 
 /**
  * Generates a GUID string.
@@ -151,3 +156,17 @@ const compare = (prop: any, operator: string, value: any) => {
       return !prop.includes(value);
   }
 };
+
+export const alert = (data: Alert) => {
+  switch (data.type) {
+    case AlertType.SLACK:
+      slack(data);
+      break;
+    case AlertType.WEBHOOK:
+      webhook(data);
+      break;
+  }
+};
+
+export const slack = (data: Alert) => {};
+export const webhook = (data: Alert) => {};

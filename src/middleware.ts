@@ -2,12 +2,15 @@ import { Request, Response, NextFunction } from "express";
 import { Low } from "lowdb";
 
 // import types
-import { Data } from "./lib/types/Index";
 import { Transaction } from "./lib/types/Transaction";
+import { Data } from "./lib/types/Index";
 
 // import functions
+import { filterByMethod, isTriggered, alert } from "./helper.js";
 import { read, findByPath } from "./storage.js";
-import { filterByMethod, isTriggered } from "./helper.js";
+
+// import enums
+import { ActionType } from "./lib/enums/index.js";
 
 /**
  * middleware for checking requests, modifying response, and alerting
@@ -30,8 +33,14 @@ const middleware = (db: Low<Data>) => {
 
       // call an action
       for (const action of t.action) {
-        console.log(action);
-        // if()
+        // if action type is alert then call an alert!
+        if (action.enabled && action.type === ActionType.ALERT) {
+          alert(action?.alert[0]);
+        }
+        // if action type is modify then modify request or respone
+        else {
+          // TODO should modify request or response here
+        }
       }
     }
 
