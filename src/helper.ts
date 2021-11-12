@@ -1,14 +1,14 @@
-import { Request } from "express";
+import { Request, Response } from "express";
 
 // import types
 import { Transaction } from "./lib/types/Transaction";
 import { Condition } from "./lib/types/Condition";
 import { Trigger } from "./lib/types/Trigger";
 import { Check } from "./lib/types/Check";
-import { Alert } from "./lib/types/Action";
+import { Alert, Modify } from "./lib/types/Action";
 
 // import enums
-import { TriggerBy, AlertType } from "./lib/enums/index.js";
+import { TriggerBy, AlertType, ModifyType } from "./lib/enums/index.js";
 
 import { request } from "./api.js";
 
@@ -188,4 +188,34 @@ export const slack = async (data: Alert) => {
  */
 export const webhook = async (data: Alert) => {
   await request(data.url, data.method, data.data);
+};
+
+/**
+ * Modify request or response
+ * @param data Modify
+ * @param res Response
+ */
+export const modify = (data: Modify, req: Request, res: Response) => {
+  switch (data.type) {
+    // change status code
+    case ModifyType.CHANGE_STATUS:
+      res.status(parseFloat(data.value));
+      break;
+
+    // change or set new header
+    case ModifyType.CHANGE_HEADERS:
+      res.setHeader(data.property, data.value);
+      break;
+
+    // case ModifyType.
+    case ModifyType.CHANGE_REPONSE_VALUE:
+      // TODO shod end response here
+      res.send(data.value);
+      break;
+
+    // change or set new cookie
+    case ModifyType.CHANGE_COOCKIES:
+      res.cookie(data.property, data.value);
+      break;
+  }
 };

@@ -6,7 +6,7 @@ import { Transaction } from "./lib/types/Transaction";
 import { Data } from "./lib/types/Index";
 
 // import functions
-import { filterByMethod, isTriggered, alert } from "./helper.js";
+import { filterByMethod, isTriggered, alert, modify } from "./helper.js";
 import { read, findByPath } from "./storage.js";
 
 // import enums
@@ -33,13 +33,17 @@ const middleware = (db: Low<Data>) => {
 
       // call an action
       for (const action of t.action) {
+        // skip this action
+        if (!action.enabled) continue;
+
         // if action type is alert then call an alert!
-        if (action.enabled && action.type === ActionType.ALERT) {
+        if (action.type === ActionType.ALERT) {
           alert(action?.alert[0]);
         }
+
         // if action type is modify then modify request or respone
         else {
-          // TODO should modify request or response here
+          modify(action?.modify[0], req, res);
         }
       }
     }
