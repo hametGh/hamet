@@ -1,16 +1,22 @@
 import { Request, Response, NextFunction } from "express";
-import { Data } from "./lib/types/Index";
 import { Low } from "lowdb";
-import { read, findByPath } from "./storage.js";
-import { filterByMethod, isTriggered } from "./helper.js";
+
+// import types
+import { Data } from "./lib/types/Index";
 import { Transaction } from "./lib/types/Transaction";
 
+// import functions
+import { read, findByPath } from "./storage.js";
+import { filterByMethod, isTriggered } from "./helper.js";
+
+/**
+ * middleware for checking requests, modifying response, and alerting
+ * @param db Low<Data>
+ */
 const middleware = (db: Low<Data>) => {
   return async (req: Request, res: Response, next: NextFunction) => {
     // read database
-    console.time("reading local database");
     await read(db);
-    console.timeEnd("reading local database");
 
     // find transaction by path
     let transactions = await findByPath(db, req.path);
@@ -21,6 +27,12 @@ const middleware = (db: Low<Data>) => {
     for (let t of matchedT) {
       // skip this transaction because it's not triggered
       if (!t.enabled || !isTriggered(t.trigger, t.triggerWhen, req)) continue;
+
+      // call an action
+      for (const action of t.action) {
+        console.log(action);
+        // if()
+      }
     }
 
     next();

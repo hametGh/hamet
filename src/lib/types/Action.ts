@@ -14,6 +14,7 @@ type Alert = {
 };
 export type Action = {
   type: ActionType;
+  enabled: boolean;
   modify: Modify[] | [];
   alert: Alert[] | [];
 };

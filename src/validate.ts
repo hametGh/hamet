@@ -108,7 +108,12 @@ export const createTransaction = {
             items: {
               type: "object",
               properties: {
-                alertType: { type: "string", enum: ["webhook", "slack"] },
+                type: { type: "string", enum: ["webhook", "slack"] },
+                url: { type: "string" },
+                method: {
+                  type: "string",
+                  enum: ["GET", "POST", "PUT", "DELETE"],
+                },
                 // TODO Define unevaluated properties
                 // data: { type: "object" },
               },
@@ -222,7 +227,13 @@ export const updateTransaction = {
             items: {
               type: "object",
               properties: {
-                alertType: { type: "string", enum: ["webhook", "slack"] },
+                type: { type: "string", enum: ["webhook", "slack"] },
+                url: { type: "string" },
+                method: {
+                  type: "string",
+                  enum: ["GET", "POST", "PUT", "DELETE"],
+                },
+
                 // TODO Define unevaluated properties
                 // data: { type: "object" },
               },
