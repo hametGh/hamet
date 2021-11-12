@@ -21,12 +21,7 @@ const middleware = (db: Low<Data>) => {
     for (let t of matchedT) {
       // skip this transaction because it's not triggered
       if (!t.enabled || !isTriggered(t.trigger, t.triggerWhen, req)) continue;
-
-      // TODO call action here
-      console.log("should call an action");
     }
-
-    console.log(req.cookies);
 
     next();
   };
