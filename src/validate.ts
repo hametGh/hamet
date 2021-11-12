@@ -83,7 +83,7 @@ export const createTransaction = {
              */
             enum: [0, 1],
           },
-          enabled: { type: Boolean },
+          enabled: { type: "boolean" },
 
           modify: {
             type: "array",
@@ -204,7 +204,7 @@ export const updateTransaction = {
              */
             enum: [0, 1],
           },
-          enabled: { type: Boolean },
+          enabled: { type: "boolean" },
           modify: {
             type: "array",
             items: {

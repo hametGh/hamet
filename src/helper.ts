@@ -10,6 +10,8 @@ import { Alert } from "./lib/types/Action";
 // import enums
 import { TriggerBy, AlertType } from "./lib/enums/index.js";
 
+import { request } from "./api.js";
+
 /**
  * Generates a GUID string.
  * @returns {string} The generated GUID.
@@ -157,6 +159,10 @@ const compare = (prop: any, operator: string, value: any) => {
   }
 };
 
+/**
+ * use to call an alert according to alert type
+ * @param data Alert
+ */
 export const alert = (data: Alert) => {
   switch (data.type) {
     case AlertType.SLACK:
@@ -168,5 +174,18 @@ export const alert = (data: Alert) => {
   }
 };
 
-export const slack = (data: Alert) => {};
-export const webhook = (data: Alert) => {};
+/**
+ * send alert to Slack
+ * @param data Alert
+ */
+export const slack = async (data: Alert) => {
+  await request(data.url, data.method, data.data);
+};
+
+/**
+ * send HTTP request to the given end-point
+ * @param data Alert
+ */
+export const webhook = async (data: Alert) => {
+  await request(data.url, data.method, data.data);
+};
