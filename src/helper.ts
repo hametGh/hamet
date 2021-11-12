@@ -45,34 +45,42 @@ export const isTriggered = (
   triggerBy: Check,
   req: Request
 ): boolean => {
-  let result: boolean = true;
   let triggerStat: boolean[] = [];
 
   for (let trigger of triggers) {
     let currentStat: boolean = false;
+
     switch (trigger.by) {
       // check by request parameters
       case TriggerBy.PARAM:
-        if (checkCondition(req.params, trigger.condition)) currentStat = true;
+        if (checkCondition(req.params, trigger.condition, "object"))
+          currentStat = true;
         break;
       // check by request AGENT
       case TriggerBy.USER_AGENT:
+        if (
+          checkCondition(req.headers["user-agent"], trigger.condition, "string")
+        )
+          currentStat = true;
         break;
-      // check by request BODY
+      // TODO check by request BODY
       case TriggerBy.BODY:
         break;
       // check by request COOKIE
       case TriggerBy.COOKIE:
-        if (checkCondition(req.cookies, trigger.condition)) currentStat = true;
+        if (checkCondition(req.cookies, trigger.condition, "object"))
+          currentStat = true;
         break;
       // check by request HEADER
       case TriggerBy.HEADER:
-        if (checkCondition(req.headers, trigger.condition)) currentStat = true;
+        if (checkCondition(req.headers, trigger.condition, "object"))
+          currentStat = true;
 
         break;
       // check by request QUERY
       case TriggerBy.QUERY_STRING:
-        if (checkCondition(req.query, trigger.condition)) currentStat = true;
+        if (checkCondition(req.query, trigger.condition, "object"))
+          currentStat = true;
         break;
     }
     triggerStat.push(currentStat);
@@ -89,11 +97,21 @@ export const isTriggered = (
  * @param source any
  * @example req.params, req.headers
  * @param conditions Condition
+ * @param sourceType "object" | "string"
  */
-const checkCondition = (source: any, conditions: Condition[]): boolean => {
+const checkCondition = (
+  source: any,
+  conditions: Condition[],
+  sourceType: "object" | "string"
+): boolean => {
   let conditionStat: boolean = true;
   for (let cond of conditions) {
-    if (!compare(source[cond.property], cond.operator, cond.value))
+    if (
+      sourceType === "object" &&
+      !compare(source[cond.property], cond.operator, cond.value)
+    )
+      conditionStat = false;
+    if (sourceType === "string" && !compare(source, cond.operator, cond.value))
       conditionStat = false;
   }
   return conditionStat;

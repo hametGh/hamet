@@ -7,7 +7,7 @@ import { Transaction } from "./lib/types/Transaction";
 
 const middleware = (db: Low<Data>) => {
   return async (req: Request, res: Response, next: NextFunction) => {
-    // read database 
+    // read database
     console.time("reading local database");
     await read(db);
     console.timeEnd("reading local database");
@@ -16,18 +16,17 @@ const middleware = (db: Low<Data>) => {
     let transactions = await findByPath(db, req.path);
 
     // find transactions of current method
-    let matchedTransactions: Transaction[] = filterByMethod(
-      transactions,
-      req.method
-    );
+    let matchedT: Transaction[] = filterByMethod(transactions, req.method);
 
-    for (let t of matchedTransactions) {
+    for (let t of matchedT) {
       // skip this transaction because it's not triggered
       if (!t.enabled || !isTriggered(t.trigger, t.triggerWhen, req)) continue;
 
       // TODO call action here
       console.log("should call an action");
     }
+
+    console.log(req.cookies);
 
     next();
   };
