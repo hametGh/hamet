@@ -19,14 +19,14 @@ const middleware = (db: Low<Data>) => {
       req.method
     );
 
-    for (let transaction of matchedTransactions) {
+    for (let t of matchedTransactions) {
       // skip this transaction because it's not triggered
-      if (
-        !transaction.enabled ||
-        !isTriggered(transaction.trigger, transaction.triggerWhen, req)
-      )
-        continue;
+      if (!t.enabled || !isTriggered(t.trigger, t.triggerWhen, req)) continue;
+
+      // TODO do the action
     }
+
+    console.log(req.query);
 
     next();
   };

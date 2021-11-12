@@ -41,7 +41,7 @@ export const createTransaction = {
           by: {
             type: "number",
             minimum: 0,
-            maximum: 4,
+            maximum: 5,
           },
           condition: {
             type: "array",
@@ -155,18 +155,18 @@ export const updateTransaction = {
       type: "array",
       items: {
         type: "object",
-        
+
         properties: {
           by: {
             type: "number",
             minimum: 0,
-            maximum: 4,
+            maximum: 5,
           },
           condition: {
             type: "array",
             items: {
               type: "object",
-             
+
               properties: {
                 property: {
                   type: "string",
@@ -199,7 +199,7 @@ export const updateTransaction = {
       type: "array",
       items: {
         type: "object",
-     
+
         properties: {
           type: {
             type: "number",

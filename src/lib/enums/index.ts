@@ -18,6 +18,7 @@ export enum TriggerBy {
   COOKIE,
   BODY,
   USER_AGENT,
+  QUERY_STRING,
 }
 
 export enum ActionType {
