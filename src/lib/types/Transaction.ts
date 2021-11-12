@@ -17,5 +17,4 @@ export type Transaction = {
   trigger: Trigger[];
   triggerWhen: Check;
   action: Action[];
-  ActionWhen: Check;
 };

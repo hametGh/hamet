@@ -117,11 +117,6 @@ export const createTransaction = {
         },
       },
     },
-
-    actionWhen: {
-      type: "string",
-      enum: ["AND", "OR"],
-    },
   },
 };
 
@@ -235,11 +230,6 @@ export const updateTransaction = {
           },
         },
       },
-    },
-
-    actionWhen: {
-      type: "string",
-      enum: ["AND", "OR"],
     },
   },
 };
