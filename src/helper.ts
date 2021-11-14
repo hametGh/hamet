@@ -37,7 +37,7 @@ export const filterByMethod = (
   method: string
 ): Transaction[] => {
   let result = [<Transaction>{}];
-  result = t.filter((property) => property.method === method) as any;
+  result = t?.filter((property) => property.method === method) as any;
   return result;
 };
 

@@ -60,7 +60,7 @@ export const preInsert = (t: Transaction): Transaction => {
  * @param path String
  */
 export const findByPath = async (db: Low<Data>, path: string) => {
-  return db.data![path];
+  return db.data![path] || [];
 };
 
 /**
